@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
         //Convert UserDTO into User JPA Entity
         User user = UserMapper.mapToUser(userDto);
 
-       User savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
        //Convert User JPA entity to UserDTO
        UserDto savedUserDto = UserMapper.mapToUserDto(savedUser);
@@ -33,24 +33,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Long userId) {
+    public UserDto getUserById(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.get();
+        User user = optionalUser.get();
+        return UserMapper.mapToUserDto(user);
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(UserMapper::mapToUserDto).toList();
     }
 
     @Override
-    public User updateUser(User user) {
+    public UserDto updateUser(UserDto user) {
         User existingUser = userRepository.findById(user.getId()).get();
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
         existingUser.setEmail(user.getEmail());
         User updatedUser = userRepository.save(existingUser);
-        return updatedUser;
+        return UserMapper.mapToUserDto(updatedUser);
     }
 
     @Override
