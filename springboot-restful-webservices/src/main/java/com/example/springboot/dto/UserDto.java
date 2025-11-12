@@ -31,7 +31,7 @@ public class UserDto {
     // User last name should not be null or empty
     @NotEmpty(message = "User last name should not be null or empty")
     private String lastName;
-    
+
     @Schema(
             description = "User Email Address"
     )
