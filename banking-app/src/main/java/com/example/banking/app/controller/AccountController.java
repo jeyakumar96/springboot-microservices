@@ -1,14 +1,11 @@
 package com.example.banking.app.controller;
 
-
 import com.example.banking.app.entity.Account;
 import com.example.banking.app.entity.Transaction;
-import com.example.banking.app.payload.CreateAccountRequest;
 import com.example.banking.app.payload.TransferRequest;
 import com.example.banking.app.repository.AccountRepository;
-import com.example.banking.app.service.impl.AccountService;
+import com.example.banking.app.service.impl.AccountServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,26 +16,20 @@ import java.util.List;
 @RequestMapping("/api/accounts")
 @RequiredArgsConstructor
 public class AccountController {
-    private final AccountService accountService;
+    private final AccountServiceImpl accountService;
     private final AccountRepository accountRepo;
-
-    @PostMapping("/create")
-    public ResponseEntity<Account> createAccount(@RequestBody CreateAccountRequest req) {
-        Account a = accountService.createAccount(req.getCustomerId(), req.getAccountType());
-        return ResponseEntity.status(HttpStatus.CREATED).body(a);
-    }
 
     @PostMapping("/{acc}/deposit")
     public ResponseEntity<Transaction> deposit(@PathVariable("acc") String acc,
-                                               @RequestParam BigDecimal amount,
-                                               @RequestParam(required=false) String desc) {
+            @RequestParam BigDecimal amount,
+            @RequestParam(required = false) String desc) {
         return ResponseEntity.ok(accountService.deposit(acc, amount, desc));
     }
 
     @PostMapping("/{acc}/withdraw")
     public ResponseEntity<Transaction> withdraw(@PathVariable("acc") String acc,
-                                                @RequestParam BigDecimal amount,
-                                                @RequestParam(required=false) String desc) {
+            @RequestParam BigDecimal amount,
+            @RequestParam(required = false) String desc) {
         return ResponseEntity.ok(accountService.withdraw(acc, amount, desc));
     }
 

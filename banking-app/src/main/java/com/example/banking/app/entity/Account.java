@@ -25,9 +25,11 @@ public class Account {
     @Column(unique = true)
     private String accountNumber;
 
-    @ManyToOne
+    // Each account belongs to exactly one user (merged Customer into User)
+    @OneToOne
+    @JoinColumn(name = "user_id", unique = true)
     @JsonBackReference
-    private Customer customer;
+    private User user;
 
     private String accountType; // SAVINGS / CHECKING
     private BigDecimal balance = BigDecimal.ZERO;

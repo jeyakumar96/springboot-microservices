@@ -1,0 +1,359 @@
+{
+	"info": {
+		"_postman_id": "543ef665-04fe-4369-8764-87c354cec31f",
+		"name": "Banking App API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21470013"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login (admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let json; try { json = pm.response.json(); } catch (e) {}",
+									"if (json && json.accessToken) { pm.environment.set('token', json.accessToken); }"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"usernameOrEmail\": \"admin\",\n  \"password\": \"Admin@123\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customers (Admin)",
+			"item": [
+				{
+					"name": "Create Customer (Admin → User + Account)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2MzAzOTMwNSwiZXhwIjoxNzYzNjQ0MTA1fQ.S6EgZTrUr7297vzJc4U3cONe5dbEDLr_Dt3xJZg3E7w2-aPFQPX0lNNE4vWCd3xN",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2MzA0MDA3MywiZXhwIjoxNzYzNjQ0ODczfQ.d5bXjzQ-l-CY4dhhVIRtLtY0DwCY2jzpFGw75h4kKLomYIlkgxKNExgNB9110wQO"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"Jeyakumar\",\n  \"email\": \"Jeyakumar@gmail.com.com\",\n  \"password\": \"Jeyakumar@123\",\n  \"firstName\": \"Jeyakumar\",\n  \"lastName\": \"Moorthy\",\n  \"accountType\": \"SAVINGS\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Customers (ROLE_USER)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2MzAzOTMwNSwiZXhwIjoxNzYzNjQ0MTA1fQ.S6EgZTrUr7297vzJc4U3cONe5dbEDLr_Dt3xJZg3E7w2-aPFQPX0lNNE4vWCd3xN",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2MzA0MDA3MywiZXhwIjoxNzYzNjQ0ODczfQ.d5bXjzQ-l-CY4dhhVIRtLtY0DwCY2jzpFGw75h4kKLomYIlkgxKNExgNB9110wQO"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/customers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "Deposit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2MzAzNDcyOCwiZXhwIjoxNzYzNjM5NTI4fQ._AmmtyNYeUevG3Mxv26PJoF_dOPkLzpg0rvqouL30KVeoGK-kNiKSmUruDVQQPfD",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2MzA0MDA3MywiZXhwIjoxNzYzNjQ0ODczfQ.d5bXjzQ-l-CY4dhhVIRtLtY0DwCY2jzpFGw75h4kKLomYIlkgxKNExgNB9110wQO"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/accounts/ACCT1763039323319/deposit?amount=74000&desc=Initial deposit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts",
+								"ACCT1763039323319",
+								"deposit"
+							],
+							"query": [
+								{
+									"key": "amount",
+									"value": "74000"
+								},
+								{
+									"key": "desc",
+									"value": "Initial deposit"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Withdraw",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3NjMwMDg5ODgsImV4cCI6MTc2MzYxMzc4OH0.5LYpmmC_Skq_Oo3N_kaE08IQq0ciNHc8WLSho2I0xgE0ktTCc5VPUrW0yqsveTvQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2MzA0MDA3MywiZXhwIjoxNzYzNjQ0ODczfQ.d5bXjzQ-l-CY4dhhVIRtLtY0DwCY2jzpFGw75h4kKLomYIlkgxKNExgNB9110wQO"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/accounts/ACCT1763039323319/withdraw?amount=1000&desc=ATM",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts",
+								"ACCT1763039323319",
+								"withdraw"
+							],
+							"query": [
+								{
+									"key": "amount",
+									"value": "1000"
+								},
+								{
+									"key": "desc",
+									"value": "ATM"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transfer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3NjMwMDg5ODgsImV4cCI6MTc2MzYxMzc4OH0.5LYpmmC_Skq_Oo3N_kaE08IQq0ciNHc8WLSho2I0xgE0ktTCc5VPUrW0yqsveTvQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2MzA0MDA3MywiZXhwIjoxNzYzNjQ0ODczfQ.d5bXjzQ-l-CY4dhhVIRtLtY0DwCY2jzpFGw75h4kKLomYIlkgxKNExgNB9110wQO"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"fromAccount\": \"ACCT1763039323319\",\n  \"toAccount\": \"ACCT1763034916505\",\n  \"amount\": 2500,\n  \"description\": \"Payment\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/accounts/transfer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts",
+								"transfer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Balance",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3NjMwMDg5ODgsImV4cCI6MTc2MzYxMzc4OH0.5LYpmmC_Skq_Oo3N_kaE08IQq0ciNHc8WLSho2I0xgE0ktTCc5VPUrW0yqsveTvQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2MzA0MDA3MywiZXhwIjoxNzYzNjQ0ODczfQ.d5bXjzQ-l-CY4dhhVIRtLtY0DwCY2jzpFGw75h4kKLomYIlkgxKNExgNB9110wQO"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/accounts/ACCT1763039323319/balance",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts",
+								"ACCT1763039323319",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE3NjMwMDg5ODgsImV4cCI6MTc2MzYxMzc4OH0.5LYpmmC_Skq_Oo3N_kaE08IQq0ciNHc8WLSho2I0xgE0ktTCc5VPUrW0yqsveTvQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc2MzA0MDA3MywiZXhwIjoxNzYzNjQ0ODczfQ.d5bXjzQ-l-CY4dhhVIRtLtY0DwCY2jzpFGw75h4kKLomYIlkgxKNExgNB9110wQO"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/api/accounts/ACCT1763039323319/transactions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accounts",
+								"ACCT1763039323319",
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -3,10 +3,8 @@ package com.example.banking.app.controller;
 
 import com.example.banking.app.payload.JWTAuthResponse;
 import com.example.banking.app.payload.LoginDto;
-import com.example.banking.app.payload.RegisterDto;
 import com.example.banking.app.repository.RoleRepository;
 import com.example.banking.app.service.AuthService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,11 +43,4 @@ public class AuthController {
         return ResponseEntity.ok(jwtAuthResponse);
     }
 
-    // Build Register REST API
-    @PostMapping(value = {"/register"})
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto){
-        String response = authService.register(registerDto);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
 }

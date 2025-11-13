@@ -1,11 +1,12 @@
 package com.example.banking.app.controller;
 
-
-import com.example.banking.app.entity.Customer;
-import com.example.banking.app.repository.CustomerRepository;
+import com.example.banking.app.entity.User;
+import com.example.banking.app.payload.CreateCustomerRequest;
+import com.example.banking.app.service.CustomerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,15 +15,25 @@ import java.util.List;
 @RequestMapping("/api/customers")
 @RequiredArgsConstructor
 public class CustomerController {
-    private final CustomerRepository customerRepo;
 
+    private final CustomerService customerService;
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Customer> create(@RequestBody Customer c) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerRepo.save(c));
+    public ResponseEntity<?> create(@RequestBody CreateCustomerRequest req) {
+        try {
+            User created = customerService.createCustomer(req);
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
+        }
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> list() {
-        return ResponseEntity.ok(customerRepo.findAll());
+    public ResponseEntity<List<User>> list() {
+        List<User> customers = customerService.listCustomers();
+        return ResponseEntity.ok(customers);
     }
 }

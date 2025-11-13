@@ -1,25 +1,17 @@
 package com.example.banking.app.service.impl;
 
 
-import com.example.banking.app.entity.Role;
-import com.example.banking.app.entity.User;
-import com.example.banking.app.exception.BankAPIException;
 import com.example.banking.app.payload.LoginDto;
-import com.example.banking.app.payload.RegisterDto;
 import com.example.banking.app.repository.RoleRepository;
 import com.example.banking.app.repository.UserRepository;
 import com.example.banking.app.security.JwtTokenProvider;
 import com.example.banking.app.service.AuthService;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -56,32 +48,4 @@ public class AuthServiceImpl implements AuthService {
         return token;
     }
 
-    @Override
-    public String register(RegisterDto registerDto) {
-
-        // add check for username exists in database
-        if(userRepository.existsByUsername(registerDto.getUsername())){
-            throw new BankAPIException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
-        }
-
-        // add check for email exists in database
-        if(userRepository.existsByEmail(registerDto.getEmail())){
-            throw new BankAPIException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
-        }
-
-        User user = new User();
-        user.setFullName(registerDto.getUsername());
-        user.setUsername(registerDto.getUsername());
-        user.setEmail(registerDto.getEmail());
-        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName("ROLE_USER").get();
-        roles.add(userRole);
-        user.setRoles(roles);
-
-        userRepository.save(user);
-
-        return "User registered successfully!.";
-    }
 }
